@@ -6,7 +6,7 @@
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-workers Integer(ENV.fetch("WEB_CONCURRENCY") { 2 })
+workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 
 
 # Puma can serve each request in a thread from an internal thread pool.
@@ -15,9 +15,8 @@ workers Integer(ENV.fetch("WEB_CONCURRENCY") { 2 })
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-max_threads_count = Integer(ENV.fetch("RAILS_MAX_THREADS") { 5 })
-min_threads_count = Integer(ENV.fetch("RAILS_MIN_THREADS") { max_threads_count })
-threads min_threads_count, max_threads_count
+threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
+threads threads_count, threads_count
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -29,11 +28,12 @@ rackup      DefaultRackup
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch("PORT") { 3000 }
+port        ENV['PORT']     || 3000
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RACK_ENV") { "development" }
+environment ENV['RACK_ENV'] || 'development'
+
 
 on_worker_boot do
   # Worker specific setup for Rails 4.1+
