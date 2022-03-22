@@ -1,0 +1,17 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+  config:
+    RACK_ENV: production
+    RAILS_ENV: production
+    # log出力フラグ(enabled: 出力する)
+    RAILS_LOG_TO_STDOUT: enabled
+    # publicディレクトリからの静的ファイルを提供してもらうかのフラグ(enabled: 提供してもらう)
+    RAILS_SERVE_STATIC_FILES: enabled
+build:
+  docker:
+    web: Dockerfile
+  config:
+    WORKDIR: app
+run:
+  web: bundle exec puma -C config/puma.rb
