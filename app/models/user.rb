@@ -8,7 +8,7 @@ class User < ApplicationRecord
   VALID_PASSWORD_LEGIX = /\A[\w\-]+\z/
 
   validates :name, presence: true, length: { maximum: 30, allow_blank: true }
-  validates :email, presence: true, email; 
+  validates :email, presence: true, email: { allow_blank: true }
   validates :password, presence: true, length:  { minimum: 8, allow_blank: true }, 
                        format: { with: VALID_PASSWORD_LEGIX, message: :invalid_password, allow_blank: true }, allow_nil: true
   validates :activated_flg, inclusion: { in: [ true, false ] }
@@ -25,4 +25,9 @@ class User < ApplicationRecord
     users.find_by_activated(email).present?
   end
 
+  private
+
+  def downcase_email
+    self.email.downcase! if email
+  end
 end
